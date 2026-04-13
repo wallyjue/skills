@@ -2,7 +2,7 @@
 name: token-saving
 description: Saves Claude tokens by translating non-English prompts into English using Gemini flash-lite before sending to Claude, then translates Claude's response back into the user's original language. Use when the user invokes /token-saving or wants to reduce token usage when writing prompts in non-English languages.
 argument-hint: <prompt in any language>
-allowed-tools: [mcp__gemini-cli__chat]
+allowed-tools: [Bash]
 ---
 
 # Token-Saving Skill
@@ -21,17 +21,15 @@ Follow these steps exactly:
 
 ### Step 1 — Detect language and translate with Gemini flash-lite
 
-Call `mcp__gemini-cli__chat` with:
-- `model`: `gemini-2.5-flash-lite`
-- `prompt`: the exact string below, with `$ARGUMENTS` substituted in:
+Use the Bash tool to run the following command, substituting `$ARGUMENTS` into the prompt:
 
-```
-Detect the language of the following text and translate it into English. Respond using EXACTLY this format with no extra commentary:
+```bash
+gemini --model gemini-2.5-flash-lite -p "Detect the language of the following text and translate it into English. Respond using EXACTLY this format with no extra commentary:
 LANGUAGE: <detected language name in English>
 TRANSLATION: <translated text>
 
 Text to translate:
-$ARGUMENTS
+$ARGUMENTS"
 ```
 
 ### Step 2 — Extract language and translation
@@ -48,14 +46,12 @@ Use the extracted English translated text as if the user had typed it directly. 
 
 ### Step 4 — Translate the response back with Gemini flash-lite
 
-Take your English response from Step 3 and call `mcp__gemini-cli__chat` again with:
-- `model`: `gemini-2.5-flash-lite`
-- `prompt`: the exact string below, substituting in the original language and your English response:
+Take your English response from Step 3 and use the Bash tool to run the following command, substituting in the original language and your English response:
 
-```
-Translate the following text into <ORIGINAL_LANGUAGE>. Output ONLY the translated text with no extra commentary, labels, or formatting:
+```bash
+gemini --model gemini-2.5-flash-lite -p "Translate the following text into <ORIGINAL_LANGUAGE>. Output ONLY the translated text with no extra commentary, labels, or formatting:
 
-<YOUR_ENGLISH_RESPONSE>
+<YOUR_ENGLISH_RESPONSE>"
 ```
 
 ### Step 5 — Output the translated response
