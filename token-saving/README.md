@@ -11,22 +11,15 @@ Claude's tokenizer is optimised for English. Non-Latin scripts (Chinese, Japanes
 ## Prerequisites
 
 1. **Claude Code** — CLI, desktop app, or IDE extension installed and signed in.
-2. **gemini-cli MCP server** — the `mcp__gemini-cli__chat` tool must be available in your Claude Code session. Install it by adding the gemini-cli MCP server to your Claude Code settings:
-   ```json
-   {
-     "mcpServers": {
-       "gemini-cli": {
-         "command": "npx",
-         "args": ["-y", "@google/gemini-cli-mcp"]
-       }
-     }
-   }
+2. **Gemini CLI** — the `gemini` command must be available on your `PATH`. Install it via npm:
+   ```bash
+   npm install -g @google/gemini-cli
    ```
    Then authenticate with your Google account:
    ```
    ! gemini
    ```
-   Follow the login prompt. Once authenticated, the `mcp__gemini-cli__chat` tool will be available.
+   Follow the login prompt. Once authenticated, the `gemini` CLI is ready to use.
 
 ---
 
